@@ -13,7 +13,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-        }
+        } 
         #gameArea {
             position: relative;
             width: 300px;
@@ -29,10 +29,11 @@
             background-color: black;
             bottom: 25px;
             left: 115px;
+            
         }
         #player:after {
-            content: 'player';
-            position: absolute;
+            content: '🚗';
+            position: absolute; 
             top: 7px;
             left: 7px;
             font-size: 40px;
@@ -44,7 +45,7 @@
             background-color: black;
         }
         .enemy:after {
-            content: 'enemy';
+            content: '🚙';
             position: absolute;
             top: 5px;
             left: 5px;
@@ -61,13 +62,13 @@
         const player = document.getElementById('player');
         let playerX = 125;
         const lanes = [25, 125, 225];
-        let score = 0; 
+        let score = 0;
         document.addEventListener('keydown', function (event) {
             if (event.key === 'ArrowLeft' && playerX > lanes[0]) {
                 playerX -= 100;
             } else if (event.key === 'ArrowRight' && playerX < lanes[2]) {
                 playerX += 100;
-            }
+            } 
             player.style.left = playerX + 'px';
         });
         function createEnemy() {
@@ -79,7 +80,7 @@
             gameArea.appendChild(enemy);
             let enemyY = 0;
             const moveInterval = setInterval(() => {
-                enemyY += 5; 
+                enemyY += 5;
                 enemy.style.top = enemyY + 'px';
                 if (enemyY > 450 && enemy.style.left === player.style.left) {
                     alert(`Game Over! Your Score: ${score}`);
@@ -88,11 +89,11 @@
                 } 
                 if (enemyY > 500) {
                     clearInterval(moveInterval);
-                    enemy.remove();
-                    score += 10;
+                      enemy.remove();
+                    score += 10;                     
                     console.log('Score:', score);
                 }
-            }, 50);
+            },30);
         }
         setInterval(createEnemy, 2000);
     </script>
