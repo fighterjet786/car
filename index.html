@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lane Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #gameArea {
+            position: relative;
+            width: 300px;
+            height: 500px;
+            background-color: black;
+            border: 2px solid black;
+            overflow: hidden;
+        }
+        #player {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: black;
+            bottom: 25px;
+            left: 115px;
+        }
+        #player:after {
+            content: 'player';
+            position: absolute;
+            top: 7px;
+            left: 7px;
+            font-size: 40px;
+        }
+        .enemy {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: black;
+        }
+        .enemy:after {
+            content: 'enemy';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameArea">
+        <div id="player"></div>
+    </div>
+    <script>
+        const gameArea = document.getElementById('gameArea');
+        const player = document.getElementById('player');
+        let playerX = 125;
+        const lanes = [25, 125, 225];
+        let score = 0; 
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'ArrowLeft' && playerX > lanes[0]) {
+                playerX -= 100;
+            } else if (event.key === 'ArrowRight' && playerX < lanes[2]) {
+                playerX += 100;
+            }
+            player.style.left = playerX + 'px';
+        });
+        function createEnemy() {
+            const enemy = document.createElement('div');
+            enemy.classList.add('enemy');
+            const randomLane = lanes[Math.floor(Math.random() * lanes.length)];
+            enemy.style.left = randomLane + 'px';
+            enemy.style.top = '0px';
+            gameArea.appendChild(enemy);
+            let enemyY = 0;
+            const moveInterval = setInterval(() => {
+                enemyY += 5; 
+                enemy.style.top = enemyY + 'px';
+                if (enemyY > 450 && enemy.style.left === player.style.left) {
+                    alert(`Game Over! Your Score: ${score}`);
+                    clearInterval(moveInterval);
+                    location.reload();
+                } 
+                if (enemyY > 500) {
+                    clearInterval(moveInterval);
+                    enemy.remove();
+                    score += 10;
+                    console.log('Score:', score);
+                }
+            }, 50);
+        }
+        setInterval(createEnemy, 2000);
+    </script>
+</body>
+</html>
